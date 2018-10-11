@@ -7,8 +7,10 @@ const cors = require('@koa/cors');
 const router = require('./routes');
 const models = require('./models')
 
+const mqtt = require('./lib/mqtt');
+
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todos')
+mongoose.connect('mongodb://localhost/thingy-security')
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 
