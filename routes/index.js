@@ -25,4 +25,12 @@ router.get('/foos/:id', Controller.Foos.read);
 router.patch('/foos/:id', Controller.Foos.update);
 router.delete('/foos/:id', Controller.Foos.delete);
 
+// Logs
+router.get('/logs/', Controller.Logs.list);
+router.post('/logs/', Controller.Logs.create);
+router.delete('/logs/', Controller.Logs.clear);
+router.get('/logs/:id', Controller.Logs.read);
+router.patch('/logs/:id', Controller.Logs.update);
+router.delete('/logs/:id', Controller.Logs.delete);
+
 module.exports = router;

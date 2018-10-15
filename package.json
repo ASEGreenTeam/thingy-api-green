@@ -18,6 +18,7 @@
     "koa-router": "^7.4.0",
     "mongoose": "^5.3.2",
     "mqtt": "^2.18.8",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "request": "^2.88.0"
   }
 }
