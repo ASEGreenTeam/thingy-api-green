@@ -19,7 +19,7 @@ $ sudo service mongod start
 To run the API use the command
 
 ```
-$ node .
+$ MQTT_PASSWORD=1ea713ca2e npm start
 ```
 
 from the repository. The API's url is [http://localhost:3000](http://localhost:3000).

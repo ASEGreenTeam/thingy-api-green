@@ -50,7 +50,7 @@ let controller = {
   },
 
   clear: async (ctx, next) => {
-    await Models.Foo.deleteMany({});
+    await Models.Log.deleteMany({});
     ctx.status = 204;
     await next();
   }
