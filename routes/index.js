@@ -4,6 +4,9 @@ const Controller = require('../controllers');
 
 const jwt = require("../middlewares/jwt");
 
+const bcrypt = require('bcryptjs');
+
+const Models = require('../models');
 
 
 
@@ -23,11 +26,14 @@ router.use(async (ctx, next) => {
 });
 
 
+// login
 router.post("/login", async (ctx) => {
     let username = ctx.request.body.username;
     let password = ctx.request.body.password;
 
-    if (username === "user" && password === "pwd") {
+    user = await Models.User.findOne({username: username});
+
+    if(bcrypt.compareSync(password, user.password)) {
         ctx.body = {
             token: jwt.issue({
                 user: "user",
@@ -38,6 +44,30 @@ router.post("/login", async (ctx) => {
         ctx.status = 401;
         ctx.body = {error: "Invalid login"}
     }
+});
+
+
+// register
+router.post('/register', async (ctx) => {
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(ctx.request.body.password, salt);
+  var newUser = new Models.User({ username: ctx.request.body.username, password: hash, email: ctx.request.body.email});
+  await newUser.save(function (err, newUser) {
+   if (err) return console.error(err);
+  });
+
+  if (newUser) {
+    ctx.body = {
+        token: jwt.issue({
+            user: "user",
+            role: "admin"
+        })
+    }
+  } else {
+    ctx.status = 400;
+    ctx.body = { error: 'error no user is been created' };
+  }
+  return ctx;
 });
 
 
