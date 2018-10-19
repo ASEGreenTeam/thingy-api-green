@@ -71,7 +71,7 @@ router.post('/register', async (ctx) => {
 });
 
 
-
+/*
 router.get('/foos/', Controller.Foos.list);
 router.post('/foos/', Controller.Foos.create);
 router.delete('/foos/', Controller.Foos.clear);
@@ -87,7 +87,7 @@ router.get('/logs/:id', Controller.Logs.read);
 router.patch('/logs/:id', Controller.Logs.update);
 router.delete('/logs/:id', Controller.Logs.delete);
 
-
+*/
 
 
 module.exports = router;
