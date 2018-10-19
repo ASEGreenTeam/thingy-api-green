@@ -2,9 +2,13 @@ const Router = require('koa-router');
 const router = new Router();
 const Controller = require('../controllers');
 
-// middlewares
-const jwt = require('../middlewares/jwt.js');
-const authenticate = require('../middlewares/authenticate.js');
+// secure Router
+
+
+
+
+
+
 
 // Error handling
 router.use(async (ctx, next) => {
@@ -19,29 +23,14 @@ router.use(async (ctx, next) => {
   }
 });
 
-router.get('/foos/*', async (ctx) => {
-  if (ctx.isAuthenticated()) {
-    console.log(ctx._matchedRoute);
-    ctx.redirect(ctx._matchedRoute);
-  } else {
-    ctx.redirect('/auth/login');
-    ctx.body = { success: false };
-    ctx.throw(401);
-  }
-});
-
-// login
-router.post('/login/', function *(next) {
-  authenticate(this);
-});
 
 // Routes
 
 // Foos
-router.post('/foos/', jwt, Controller.Foos.create);
-router.get('/foos/', jwt, Controller.Foos.create);
-//router.get('/foos/', Controller.Foos.list);
-//router.post('/foos/', Controller.Foos.create);
+
+
+router.get('/foos/', Controller.Foos.list);
+router.post('/foos/', Controller.Foos.create);
 router.delete('/foos/', Controller.Foos.clear);
 router.get('/foos/:id', Controller.Foos.read);
 router.patch('/foos/:id', Controller.Foos.update);

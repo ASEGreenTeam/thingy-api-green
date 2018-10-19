@@ -40,3 +40,6 @@ $ curl -X POST --header 'Content-Type: application/json' --header 'Accept: appli
 ```
 
 so you'll can test the client too.
+
+## JWT
+// in order to build the JWT I used this guide: http://polyglot.ninja/rest-api-koajs-mongodb-part-3/
