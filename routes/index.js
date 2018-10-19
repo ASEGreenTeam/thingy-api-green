@@ -2,8 +2,7 @@ const Router = require('koa-router');
 const router = new Router();
 const Controller = require('../controllers');
 
-// secure Router
-
+const jwt = require("../middlewares/jwt");
 
 
 
@@ -24,9 +23,23 @@ router.use(async (ctx, next) => {
 });
 
 
-// Routes
+router.post("/login", async (ctx) => {
+    let username = ctx.request.body.username;
+    let password = ctx.request.body.password;
 
-// Foos
+    if (username === "user" && password === "pwd") {
+        ctx.body = {
+            token: jwt.issue({
+                user: "user",
+                role: "admin"
+            })
+        }
+    } else {
+        ctx.status = 401;
+        ctx.body = {error: "Invalid login"}
+    }
+});
+
 
 
 router.get('/foos/', Controller.Foos.list);

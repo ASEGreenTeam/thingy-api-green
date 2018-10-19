@@ -1,6 +1,7 @@
 const jwt = require("koa-jwt");
 const SECRET = "S3cRET~!";
 const jwtInstance = jwt({secret: SECRET});
+const jsonwebtoken = require("jsonwebtoken");
 
 
 function JWTErrorHandler(ctx, next) {
@@ -16,6 +17,13 @@ function JWTErrorHandler(ctx, next) {
     });
 };
 
+
+
+
+// helper function
+module.exports.issue =  (payload) => {
+    return jsonwebtoken.sign(payload, SECRET);
+};
 
 module.exports.jwt = () => jwtInstance;
 module.exports.errorHandler = () => JWTErrorHandler;
