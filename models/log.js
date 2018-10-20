@@ -7,6 +7,25 @@ let logSchema = new Schema(
       type: String,
       enum: ['is_opening', 'is_closing'], // is_opening or is_closing are the two accepted strings
       required: true
+    },
+    thingyId: {
+      type: Schema.Types.ObjectId
+    },
+    timestamp: {
+      type: Date,
+      required: true
+    },
+    event: {
+      type: Number
+    },
+    data: {
+      type: String
+    },
+    imagePath: {
+      type: String
+    },
+    buttonEvent: {
+      type: String
     }
   },
   {

@@ -7,6 +7,7 @@ function prepareResource(ctx, user) {
     username: user.username,
     email: user.email,
     token: user.token,
+    thingyId: user.thingyId,
     url: 'http://' + ctx.host + /user/ + user._id
   }
 }

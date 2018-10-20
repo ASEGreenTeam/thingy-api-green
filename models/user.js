@@ -20,6 +20,9 @@ let userSchema = new Schema(
     token: {
       type: String,
       unique: true
+    },
+    thingyId: {
+      type: Schema.Types.ObjectId
     }
   },
   {
