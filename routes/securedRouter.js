@@ -1,8 +1,17 @@
+/**
+ * Here, in the secureRouter.js , are stored all the routes that needs
+ * an authorization
+ *
+ *
+ *
+ */
+
+
 const Router = require('koa-router');
 const securedRouter = new Router();
 const Controller = require('../controllers');
 
-// secure Router
+
 
 
 
@@ -47,7 +56,6 @@ securedRouter.delete('/logs/', Controller.Logs.clear);
 securedRouter.get('/logs/:id', Controller.Logs.read);
 securedRouter.patch('/logs/:id', Controller.Logs.update);
 securedRouter.delete('/logs/:id', Controller.Logs.delete);
-
 
 
 

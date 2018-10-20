@@ -1,3 +1,11 @@
+/**
+ * Here, in the index.js , are stored all the routes that doesn't needs
+ * an authorization
+ *
+ *
+ *
+ */
+
 const Router = require('koa-router');
 const router = new Router();
 const Controller = require('../controllers');
@@ -33,13 +41,17 @@ router.post("/login", async (ctx) => {
 
     user = await Models.User.findOne({username: username});
 
+
     if(bcrypt.compareSync(password, user.password)) {
-        ctx.body = {
+        let token = {
             token: jwt.issue({
-                user: "user",
+                user: user.username,
                 role: "admin"
             })
         }
+        await Models.User.updateOne({_id: user._id}, { token: token.token })
+        ctx.body = token
+
     } else {
         ctx.status = 401;
         ctx.body = {error: "Invalid login"}
@@ -57,12 +69,15 @@ router.post('/register', async (ctx) => {
   });
 
   if (newUser) {
-    ctx.body = {
+
+    token = {
         token: jwt.issue({
-            user: "user",
+            user: newUser.username,
             role: "admin"
         })
     }
+    await Models.User.updateOne({_id: newUser._id}, { token: token.token })
+    ctx.body = token
   } else {
     ctx.status = 400;
     ctx.body = { error: 'error no user is been created' };
