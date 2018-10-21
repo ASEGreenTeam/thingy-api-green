@@ -99,6 +99,13 @@ let controller = {
     await Models.Thingy.deleteMany({});
     ctx.status = 204;
     await next();
+  },
+
+  create: async (ctx, next) => {
+    const thingy = new Models.Thingy(ctx.request.body);
+    await thingy.save();
+    ctx.body = prepareResource(ctx, thingy);
+    await next();
   }
 
 }
