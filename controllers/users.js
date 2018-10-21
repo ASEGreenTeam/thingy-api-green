@@ -62,10 +62,6 @@ let controller = {
   },
 
   list: async (ctx, next) => {
-     token=getToken(ctx);
-     console.log("il tuo token é: "+ token);
-
-
     const foos = await Models.User.find({});
     ctx.body = Object.keys(foos).map(k => {
       return prepareResource(ctx, foos[k]);

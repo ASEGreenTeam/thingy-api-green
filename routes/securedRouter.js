@@ -59,4 +59,17 @@ securedRouter.delete('/logs/:id', Controller.Logs.delete);
 
 
 
+// Thingy
+securedRouter.get('/myThingy/', Controller.Thingys.readMy);
+securedRouter.delete('/myThingy', Controller.Thingys.deleteMy);
+securedRouter.patch('/myThingy/', Controller.Thingys.updateMy);
+
+securedRouter.get('/thingys/', Controller.Thingys.list);
+securedRouter.delete('/thingys/', Controller.Thingys.clear);
+securedRouter.get('/thingys/:id', Controller.Thingys.read);
+securedRouter.patch('/thingys/:id', Controller.Thingys.update);
+securedRouter.delete('/thingys/:id', Controller.Thingys.delete);
+
+
+
 module.exports = securedRouter;
