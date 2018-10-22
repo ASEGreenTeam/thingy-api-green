@@ -1,4 +1,5 @@
 const Models = require('../models');
+const mqtt = require('../lib/mqtt');
 
 
 function prepareResource(ctx, thingy) {
@@ -56,6 +57,17 @@ let controller = {
     let user = getUserFromToken(ctx);
     await Models.Thingy.deleteOne({ _id:  user.thingyId});
     ctx.status = 204;
+    await next();
+  },
+
+  registerMy: async (ctx, next) => {
+    let user = getUserFromToken(ctx);
+    mqtt.register_callback('registerThingy', (uuid) => {
+      const thingy = Models.Thingy.findByUuid(uuid);
+      user.thingyId = thingy._id;
+      user.save();
+    });
+    ctx.status = 200;
     await next();
   },
 

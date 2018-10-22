@@ -63,6 +63,7 @@ securedRouter.delete('/logs/:id', Controller.Logs.delete);
 securedRouter.get('/myThingy/', Controller.Thingys.readMy);
 securedRouter.delete('/myThingy', Controller.Thingys.deleteMy);
 securedRouter.patch('/myThingy/', Controller.Thingys.updateMy);
+securedRouter.get('/myThingy/register', Controller.Thingys.registerMy);
 
 securedRouter.post('/thingys/', Controller.Thingys.create);
 securedRouter.get('/thingys/', Controller.Thingys.list);
