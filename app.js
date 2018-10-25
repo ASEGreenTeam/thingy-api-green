@@ -4,19 +4,16 @@ const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 
+const mongoose = require('mongoose');
 const router = require('./routes/index');
 const securedRouter = require('./routes/securedRouter');
-const models = require('./models')
 
-const mqtt = require('./lib/mqtt');
-
-const jwt = require("./middlewares/jwt");
+const jwt = require('./middlewares/jwt');
 
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/thingy-security')
-  .then(() =>  console.log('connection successful'))
-  .catch((err) => console.error(err));
+mongoose.connect('mongodb://localhost/thingy-security', { useNewUrlParser: true })
+  .then(() => console.log('connection successful'))
+  .catch(err => console.error(err));
 
 const app = new Koa();
 
@@ -30,8 +27,8 @@ app
 
 // Secure router
 app
-.use(securedRouter.routes())
-.use(securedRouter.allowedMethods())
+  .use(securedRouter.routes())
+  .use(securedRouter.allowedMethods());
 
 securedRouter.use(jwt.errorHandler()).use(jwt.jwt());
 

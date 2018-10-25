@@ -1,29 +1,34 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-let userSchema = new Schema(
+const { Schema } = mongoose;
+
+const ThingySchema = new Schema(
   {
     uuid: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     alarm: {
-      type: Boolean
+      type: Boolean,
     },
     lightAlert: {
-      type: Boolean
+      type: Boolean,
     },
     soundAlert: {
-      type: Boolean
+      type: Boolean,
     },
     imagesCapture: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
-module.exports = mongoose.model('Thingy', userSchema);
+ThingySchema.query.byUuid = function byUuid(uuid) {
+  return this.find({ uuid });
+};
+
+module.exports = mongoose.model('Thingy', ThingySchema);
