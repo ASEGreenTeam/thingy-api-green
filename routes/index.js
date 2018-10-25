@@ -35,7 +35,7 @@ router.use(async (ctx, next) => {
 
 
 // login
-router.post("/login", async (ctx) => {
+router.post("/login", async (ctx, next) => {
     let username = ctx.request.body.username;
     let password = ctx.request.body.password;
 
@@ -56,6 +56,8 @@ router.post("/login", async (ctx) => {
         ctx.status = 401;
         ctx.body = {error: "Invalid login"}
     }
+
+    await next();
 });
 
 
