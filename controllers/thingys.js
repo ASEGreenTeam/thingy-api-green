@@ -1,5 +1,5 @@
 const Models = require('../models');
-const mqtt = require('../lib/mqtt');
+const typeEmitter = require('../lib/mqttTypeEvent');
 
 
 function prepareResource(ctx, thingy) {
@@ -15,25 +15,23 @@ function prepareResource(ctx, thingy) {
 }
 
 // Return the sended token
-function getToken(ctx){
-  authHeader=ctx.header.authorization;
-  token = authHeader.substring(7, authHeader.length);
+function getToken(ctx) {
+  const authHeader = ctx.header.authorization;
+  const token = authHeader.substring(7, authHeader.length);
   return token;
 }
 
 // Check if the token sended is the same of the one in the database
 // Useful for example because a user cannot read from the database the data of another user
-function getUserFromToken(ctx){
-  user = Models.User.findOne({token: getToken(ctx)});
-
+async function getUserFromToken(ctx) {
+  const user = await Models.User.findOne({ token: getToken(ctx) });
   return user;
 }
 
-let controller = {
-
+const controller = {
 
   readMy: async (ctx, next) => {
-    let user = getUserFromToken(ctx);
+    const user = getUserFromToken(ctx);
     const thingy = await Models.Thingy.findById(user.thingyId);
 
     ctx.body = prepareResource(ctx, thingy);
@@ -61,11 +59,15 @@ let controller = {
   },
 
   registerMy: async (ctx, next) => {
-    let user = getUserFromToken(ctx);
-    mqtt.register_callback('registerThingy', (uuid) => {
-      const thingy = Models.Thingy.findByUuid(uuid);
-      user.thingyId = thingy._id;
-      user.save();
+    const user = await getUserFromToken(ctx);
+    typeEmitter.once('buttonX', (uuid, count) => {
+      if (count === 5) {
+        console.log('Registering...');
+        console.log(user);
+        const thingy = Models.Thingy.find().byUuid(uuid);
+        user.thingyId = thingy._id;
+        user.save();
+      }
     });
     ctx.status = 200;
     await next();

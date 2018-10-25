@@ -6,6 +6,7 @@ const cors = require('@koa/cors');
 
 const mongoose = require('mongoose');
 const router = require('./routes/index');
+const mqtt = require('./lib/mqtt');
 const securedRouter = require('./routes/securedRouter');
 
 const jwt = require('./middlewares/jwt');
@@ -16,6 +17,8 @@ mongoose.connect('mongodb://localhost/thingy-security', { useNewUrlParser: true 
   .catch(err => console.error(err));
 
 const app = new Koa();
+
+securedRouter.use(jwt.errorHandler()).use(jwt.jwt());
 
 // Normal router
 app
@@ -30,6 +33,5 @@ app
   .use(securedRouter.routes())
   .use(securedRouter.allowedMethods());
 
-securedRouter.use(jwt.errorHandler()).use(jwt.jwt());
 
 http.createServer(app.callback()).listen(3000);

@@ -8,16 +8,9 @@
 
 
 const Router = require('koa-router');
+
 const securedRouter = new Router();
 const Controller = require('../controllers');
-
-
-
-
-
-
-
-
 
 // Error handling
 securedRouter.use(async (ctx, next) => {
@@ -27,7 +20,7 @@ securedRouter.use(async (ctx, next) => {
     console.log(error);
     ctx.status = error.status || 500;
     ctx.type = 'json';
-    ctx.body = { 'error': error.message || 'Something went wrong!' };
+    ctx.body = { error: error.message || 'Something went wrong!' };
     ctx.app.emit('error', error, ctx);
   }
 });
@@ -58,7 +51,6 @@ securedRouter.patch('/logs/:id', Controller.Logs.update);
 securedRouter.delete('/logs/:id', Controller.Logs.delete);
 
 
-
 // Thingy
 securedRouter.get('/myThingy/', Controller.Thingys.readMy);
 securedRouter.delete('/myThingy', Controller.Thingys.deleteMy);
@@ -71,7 +63,6 @@ securedRouter.delete('/thingys/', Controller.Thingys.clear);
 securedRouter.get('/thingys/:id', Controller.Thingys.read);
 securedRouter.patch('/thingys/:id', Controller.Thingys.update);
 securedRouter.delete('/thingys/:id', Controller.Thingys.delete);
-
 
 
 module.exports = securedRouter;
