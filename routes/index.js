@@ -62,29 +62,29 @@ router.post("/login", async (ctx, next) => {
 
 
 // register
-router.post('/register', async (ctx) => {
+router.post('/register', async (ctx, next) => {
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(ctx.request.body.password, salt);
-  var newUser = new Models.User({ username: ctx.request.body.username, password: hash, email: ctx.request.body.email});
-  await newUser.save(function (err, newUser) {
-   if (err) return console.error(err);
-  });
+  let newUser = new Models.User({ username: ctx.request.body.username, password: hash, email: ctx.request.body.email});
+  await newUser.save()
+    .then( newUser => {
+      console.log(newUser);
+      token = {
+          token: jwt.issue({
+              user: newUser.username,
+              role: "admin"
+          })
+      }
+      Models.User.updateOne({_id: newUser._id}, { token: token.token })
+      ctx.body = token;
+    })
+    .catch( error => {
+      console.error(error)
+      ctx.body = { error: error.message }
+      ctx.status = 400;
+    });
 
-  if (newUser) {
-
-    token = {
-        token: jwt.issue({
-            user: newUser.username,
-            role: "admin"
-        })
-    }
-    await Models.User.updateOne({_id: newUser._id}, { token: token.token })
-    ctx.body = token
-  } else {
-    ctx.status = 400;
-    ctx.body = { error: 'error no user is been created' };
-  }
-  return ctx;
+  await next();
 });
 
 
