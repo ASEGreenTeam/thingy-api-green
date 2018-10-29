@@ -1,7 +1,8 @@
 const jwt = require('koa-jwt');
 const jsonwebtoken = require('jsonwebtoken');
 
-const SECRET = Date.now().toString();
+//const SECRET = Date.now().toString();
+const SECRET = 'VERYSECRETSTRING';
 const jwtInstance = jwt({ secret: SECRET });
 
 
