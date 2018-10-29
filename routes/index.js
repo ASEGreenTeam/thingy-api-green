@@ -39,23 +39,26 @@ router.post("/login", async (ctx, next) => {
     let username = ctx.request.body.username;
     let password = ctx.request.body.password;
 
-    user = await Models.User.findOne({username: username});
-
-
-    if(bcrypt.compareSync(password, user.password)) {
-        let token = {
-            token: jwt.issue({
-                user: user.username,
-                role: "admin"
-            })
+    await Models.User.findOne({username: username}).exec()
+      .then( user => {
+        if(bcrypt.compareSync(password, user.password)) {
+          let token = {
+              token: jwt.issue({
+                  user: user.username,
+                  role: "admin"
+              })
+          }
+          Models.User.updateOne({_id: user._id}, { token: token.token });
+          ctx.body = token;
+        } else {
+          ctx.status = 401;
+          ctx.body = {error: "Invalid password"}
         }
-        await Models.User.updateOne({_id: user._id}, { token: token.token })
-        ctx.body = token
-
-    } else {
+      })
+      .catch( error => {
         ctx.status = 401;
         ctx.body = {error: "Invalid login"}
-    }
+      });
 
     await next();
 });
