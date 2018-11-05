@@ -33,10 +33,29 @@ from the repository. The API's url is [http://localhost:3000](http://localhost:3
 
 ## Remarks
 
-The back-end come with a dummy CRUD RESTful API with a resource called "foo". Its purpose is to be an example about how using the framework. You can generate some resource with
+
+You can create a new account with this command. Then you will get back a token that you need to save.
 
 ```
-$ curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"foo":"hello"}' 'http://localhost:3000/foos/'
+$ curl -X POST \
+  http://localhost:3000/register \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -d '{"username": "user", "password": "pwd", "email": "email@gmail.com"}'
+
 ```
+
+With the previusly saved toen you can add new foos in order to test the api with this command (jus replace the eyJhbG... string with the real token that you saved ):
+```
+curl -X POST \
+  http://localhost:3000/foos \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUwMjI2OTg4MX0.Ugbh4UwN9tRwhIQEQUHoo-affUf5CAsCztzAXncBYt4' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -d '{"foo":"hello"}'
+
+```
+
+
 
 so you'll can test the client too.

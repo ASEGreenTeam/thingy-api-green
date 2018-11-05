@@ -1,6 +1,24 @@
+/**
+ * Here, in the index.js , are stored all the routes that doesn't needs
+ * an authorization
+ *
+ *
+ *
+ */
+
 const Router = require('koa-router');
 const router = new Router();
 const Controller = require('../controllers');
+
+const jwt = require("../middlewares/jwt");
+
+const bcrypt = require('bcryptjs');
+
+const Models = require('../models');
+
+
+
+
 
 // Error handling
 router.use(async (ctx, next) => {
@@ -15,9 +33,65 @@ router.use(async (ctx, next) => {
   }
 });
 
-// Routes
 
-// Foos
+// login
+router.post("/login", async (ctx, next) => {
+    let username = ctx.request.body.username;
+    let password = ctx.request.body.password;
+
+    await Models.User.findOne({username: username}).exec()
+      .then( user => {
+        if(bcrypt.compareSync(password, user.password)) {
+          let token = {
+              token: jwt.issue({
+                  user: user.username,
+                  role: "admin"
+              })
+          }
+          Models.User.updateOne({_id: user._id}, { token: token.token });
+          ctx.body = token;
+        } else {
+          ctx.status = 401;
+          ctx.body = {error: "Invalid password"}
+        }
+      })
+      .catch( error => {
+        ctx.status = 401;
+        ctx.body = {error: "Invalid login"}
+      });
+
+    await next();
+});
+
+
+// register
+router.post('/register', async (ctx, next) => {
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(ctx.request.body.password, salt);
+  let newUser = new Models.User({ username: ctx.request.body.username, password: hash, email: ctx.request.body.email});
+  await newUser.save()
+    .then( newUser => {
+      console.log(newUser);
+      token = {
+          token: jwt.issue({
+              user: newUser.username,
+              role: "admin"
+          })
+      }
+      Models.User.updateOne({_id: newUser._id}, { token: token.token })
+      ctx.body = token;
+    })
+    .catch( error => {
+      console.error(error)
+      ctx.body = { error: error.message }
+      ctx.status = 400;
+    });
+
+  await next();
+});
+
+
+/*
 router.get('/foos/', Controller.Foos.list);
 router.post('/foos/', Controller.Foos.create);
 router.delete('/foos/', Controller.Foos.clear);
@@ -32,5 +106,8 @@ router.delete('/logs/', Controller.Logs.clear);
 router.get('/logs/:id', Controller.Logs.read);
 router.patch('/logs/:id', Controller.Logs.update);
 router.delete('/logs/:id', Controller.Logs.delete);
+
+*/
+
 
 module.exports = router;
