@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mqtt = require('../lib/mqtt');
 
 const { Schema } = mongoose;
 
@@ -31,10 +32,8 @@ ThingySchema.query.byUuid = function byUuid(uuid) {
   return this.find({ uuid });
 };
 
-var Thingy = mongoose.model('Thingy', ThingySchema);
-
-Thingy.findOrCreate = async function(uuid) {
-  return await Thingy.findOne({ uuid: uuid }).exec()
+ThingySchema.statics.findOrCreate = function findOrCreate(uuid) {
+  return this.findOne({ uuid: uuid }).exec()
     .then( (thingy) => {
       if(thingy == null) {
         thingy = Thingy.create({ uuid: uuid })
@@ -43,5 +42,12 @@ Thingy.findOrCreate = async function(uuid) {
       return thingy;
      });
 }
+
+ThingySchema.methods.sendCommand = function(command, data) {
+    // do sth. with the model
+    mqtt.publish(`${this.uuid}/${command}`, data);
+};
+
+var Thingy = mongoose.model('Thingy', ThingySchema);
 
 module.exports = Thingy;

@@ -61,6 +61,7 @@ securedRouter.post('/thingys/', Controller.Thingys.create);
 securedRouter.get('/thingys/', Controller.Thingys.list);
 securedRouter.delete('/thingys/', Controller.Thingys.clear);
 securedRouter.get('/thingys/:id', Controller.Thingys.read);
+securedRouter.get('/thingys/:id/snapshot', Controller.Thingys.take_snapshot)
 securedRouter.patch('/thingys/:id', Controller.Thingys.update);
 securedRouter.delete('/thingys/:id', Controller.Thingys.delete);
 

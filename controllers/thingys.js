@@ -118,6 +118,14 @@ const controller = {
     await thingy.save();
     ctx.body = prepareResource(ctx, thingy);
     await next();
+  },
+
+  take_snapshot: async(ctx, next) => {
+    const id = ctx.params.id;
+    const thingy = await Models.Thingy.findById(id);
+    thingy.sendCommand('images/take_snapshot', '');
+    ctx.status = 200;
+    await next();
   }
 
 }
