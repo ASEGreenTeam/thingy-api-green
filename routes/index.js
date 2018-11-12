@@ -48,7 +48,7 @@ router.post("/login", async (ctx, next) => {
                   role: "admin"
               })
           }
-          Models.User.updateOne({_id: user._id}, { token: token.token });
+          Models.User.updateOne({_id: user._id}, { token: token.token }).exec();
           ctx.body = token;
         } else {
           ctx.status = 401;
@@ -78,7 +78,7 @@ router.post('/register', async (ctx, next) => {
               role: "admin"
           })
       }
-      Models.User.updateOne({_id: newUser._id}, { token: token.token })
+      Models.User.updateOne({_id: newUser._id}, { token: token.token }).exec();
       ctx.body = token;
     })
     .catch( error => {

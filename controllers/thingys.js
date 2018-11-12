@@ -24,16 +24,15 @@ function getToken(ctx) {
 // Check if the token sended is the same of the one in the database
 // Useful for example because a user cannot read from the database the data of another user
 async function getUserFromToken(ctx) {
-  const user = await Models.User.findOne({ token: getToken(ctx) });
+  const user = await Models.User.findOne({ token: getToken(ctx) }).exec();
   return user;
 }
 
 const controller = {
 
   readMy: async (ctx, next) => {
-    const user = getUserFromToken(ctx);
+    const user = await getUserFromToken(ctx);
     const thingy = await Models.Thingy.findById(user.thingyId);
-
     ctx.body = prepareResource(ctx, thingy);
 
     await next();
@@ -62,11 +61,10 @@ const controller = {
     const user = await getUserFromToken(ctx);
     typeEmitter.once('buttonX', (uuid, count) => {
       if (count === 5) {
-        console.log('Registering...');
-        console.log(user);
-        const thingy = Models.Thingy.find().byUuid(uuid);
-        user.thingyId = thingy._id;
-        user.save();
+        Models.Thingy.findOrCreate(uuid)
+          .then( thingy => {
+            Models.User.updateOne({_id: user._id}, { thingyId: thingy._id }).exec();
+          });
       }
     });
     ctx.status = 200;

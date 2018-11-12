@@ -31,4 +31,17 @@ ThingySchema.query.byUuid = function byUuid(uuid) {
   return this.find({ uuid });
 };
 
-module.exports = mongoose.model('Thingy', ThingySchema);
+var Thingy = mongoose.model('Thingy', ThingySchema);
+
+Thingy.findOrCreate = async function(uuid) {
+  return await Thingy.findOne({ uuid: uuid }).exec()
+    .then( (thingy) => {
+      if(thingy == null) {
+        thingy = Thingy.create({ uuid: uuid })
+          .then( t => { return t; });
+      }
+      return thingy;
+     });
+}
+
+module.exports = Thingy;
