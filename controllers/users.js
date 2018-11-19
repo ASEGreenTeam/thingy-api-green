@@ -1,4 +1,5 @@
 const Models = require('../models');
+const mqtt = require('../lib/mqtt');
 
 function prepareResource(ctx, user) {
   return {
@@ -6,10 +7,17 @@ function prepareResource(ctx, user) {
     username: user.username,
     email: user.email,
     token: user.token,
-    thingyId: user.thingyId,
+    thingyId: user.thingyUuid,
+    alarm: user.alarm,
+    lightAlert: user.lightAlert,
+    soundAlert: user.soundAlert,
+    imagesCapture: user.imagesCapture,
+    registerThingy: user.registerThingy,
     url: `http://${ctx.host}/user/${user._id}`
   };
 }
+
+
 
 // Return the sended token
 function getToken(ctx) {
@@ -69,6 +77,26 @@ const controller = {
     ctx.status = 204;
     await next();
   },
+
+  registerThingy: async (ctx, next) => {
+    const user = await getUserFromToken(ctx);
+    typeEmitter.once('buttonX', (uuid, count) => {
+      if (count === 5) {
+        Models.User.updateOne({ thingyUuid: uuid }).exec();
+      }
+    });
+    ctx.status = 200;
+    await next();
+  },
+
 };
+
+take_snapshot: async(ctx, next) => {
+  const id = ctx.params.id;
+  const user = await Models.User.findById(id);
+  user.sendCommand('images/take_snapshot', '');
+  ctx.status = 200;
+  await next();
+}
 
 module.exports = controller;

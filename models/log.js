@@ -8,7 +8,7 @@ let logSchema = new Schema(
       enum: ['is_opening', 'is_closing'], // is_opening or is_closing are the two accepted strings
       required: true
     },
-    thingyId: {
+    userId: {
       type: Schema.Types.ObjectId
     },
     timestamp: {

@@ -33,6 +33,7 @@ securedRouter.get('/users/:id', Controller.Users.read);
 securedRouter.patch('/users/:id', Controller.Users.update);
 securedRouter.delete('/users/:id', Controller.Users.delete);
 
+securedRouter.post('/registerThingy/', Controller.Users.registerThingy);
 
 // Foos
 securedRouter.get('/foos/', Controller.Foos.list);
@@ -50,20 +51,6 @@ securedRouter.get('/logs/:id', Controller.Logs.read);
 securedRouter.patch('/logs/:id', Controller.Logs.update);
 securedRouter.delete('/logs/:id', Controller.Logs.delete);
 
-
-// Thingy
-securedRouter.get('/myThingy/', Controller.Thingys.readMy);
-securedRouter.delete('/myThingy', Controller.Thingys.deleteMy);
-securedRouter.patch('/myThingy/', Controller.Thingys.updateMy);
-securedRouter.get('/myThingy/register', Controller.Thingys.registerMy);
-
-securedRouter.post('/thingys/', Controller.Thingys.create);
-securedRouter.get('/thingys/', Controller.Thingys.list);
-securedRouter.delete('/thingys/', Controller.Thingys.clear);
-securedRouter.get('/thingys/:id', Controller.Thingys.read);
-securedRouter.get('/thingys/:id/snapshot', Controller.Thingys.take_snapshot)
-securedRouter.patch('/thingys/:id', Controller.Thingys.update);
-securedRouter.delete('/thingys/:id', Controller.Thingys.delete);
 
 
 module.exports = securedRouter;
