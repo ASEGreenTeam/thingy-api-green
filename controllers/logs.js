@@ -5,7 +5,7 @@ function prepareResource(ctx, log) {
     id: log._id,
     direction: log.direction,
     createdAt: log.createdAt,
-    url: 'http://' + ctx.host + /logs/ + log._id
+    url: `http://${ctx.host}/logs/${log._id}`
   }
 }
 

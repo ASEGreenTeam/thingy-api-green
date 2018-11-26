@@ -1,36 +1,35 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let logSchema = new Schema(
+const logSchema = new Schema(
   {
     direction: {
       type: String,
       enum: ['is_opening', 'is_closing'], // is_opening or is_closing are the two accepted strings
-      required: true
     },
     userId: {
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
     },
     timestamp: {
       type: Date,
-      required: true
+      required: true,
     },
     event: {
-      type: Number
+      type: Number,
     },
     data: {
-      type: String
+      type: String,
     },
     imagePath: {
-      type: String
+      type: String,
     },
     buttonEvent: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 module.exports = mongoose.model('Log', logSchema);

@@ -1,5 +1,6 @@
 const Models = require('../models');
 const mqtt = require('../lib/mqtt');
+const typeEmitter = require('../lib/mqttTypeEvent');
 
 function prepareResource(ctx, user) {
   return {
@@ -13,10 +14,9 @@ function prepareResource(ctx, user) {
     soundAlert: user.soundAlert,
     imagesCapture: user.imagesCapture,
     registerThingy: user.registerThingy,
-    url: `http://${ctx.host}/user/${user._id}`
+    url: `http://${ctx.host}/user/${user._id}`,
   };
 }
-
 
 
 // Return the sended token
@@ -24,6 +24,13 @@ function getToken(ctx) {
   const authHeader = ctx.header.authorization;
   const token = authHeader.substring(7, authHeader.length);
   return token;
+}
+
+// Check if the token sended is the same of the one in the database
+// Useful for example because a user cannot read from the database the data of another user
+async function getUserFromToken(ctx) {
+  const user = await Models.User.findOne({ token: getToken(ctx) }).exec();
+  return user;
 }
 
 // Check if the token sended is the same of the one in the database
@@ -82,21 +89,20 @@ const controller = {
     const user = await getUserFromToken(ctx);
     typeEmitter.once('buttonX', (uuid, count) => {
       if (count === 5) {
-        Models.User.updateOne({ thingyUuid: uuid }).exec();
+        Models.User.updateOne({ _id: user._id, thingyUuid: uuid }).exec();
       }
     });
     ctx.status = 200;
     await next();
   },
 
+  takeSnapshot: async (ctx, next) => {
+    const user = await getUserFromToken(ctx);
+    typeEmitter.emit('takeSnapshot', user.thingyUuid, '');
+    ctx.status = 200;
+    await next();
+  },
 };
 
-take_snapshot: async(ctx, next) => {
-  const id = ctx.params.id;
-  const user = await Models.User.findById(id);
-  user.sendCommand('images/take_snapshot', '');
-  ctx.status = 200;
-  await next();
-}
 
 module.exports = controller;

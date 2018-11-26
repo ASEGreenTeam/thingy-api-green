@@ -36,29 +36,29 @@ router.use(async (ctx, next) => {
 
 // login
 router.post("/login", async (ctx, next) => {
-    let username = ctx.request.body.username;
-    let password = ctx.request.body.password;
+  let username = ctx.request.body.username;
+  let password = ctx.request.body.password;
 
-    await Models.User.findOne({username: username}).exec()
-      .then( user => {
-        if(bcrypt.compareSync(password, user.password)) {
-          let token = {
-              token: jwt.issue({
-                  user: user.username,
-                  role: "admin"
-              })
-          }
-          Models.User.updateOne({_id: user._id}, { token: token.token }).exec();
-          ctx.body = token;
-        } else {
-          ctx.status = 401;
-          ctx.body = {error: "Invalid password"}
+  await Models.User.findOne({ username: username }).exec()
+    .then( user => {
+      if (bcrypt.compareSync(password, user.password)) {
+        let token = {
+          token: jwt.issue({
+            user: user.username,
+            role: "admin"
+          })
         }
-      })
-      .catch( error => {
+        Models.User.updateOne({_id: user._id }, { token: token.token }).exec();
+        ctx.body = token;
+      } else {
         ctx.status = 401;
-        ctx.body = {error: "Invalid login"}
-      });
+        ctx.body = { error: "Invalid password" };
+      }
+    })
+    .catch( error => {
+      ctx.status = 401;
+      ctx.body = { error: "Invalid login" };
+    });
 
     await next();
 });

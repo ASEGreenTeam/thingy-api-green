@@ -1,30 +1,30 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const typeEmitter = require('../lib/mqttTypeEvent');
+const mqtt = require('../lib/mqtt');
 
-let userSchema = new Schema(
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema(
   {
     username: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     token: {
       type: String,
-      unique: true
+      unique: true,
     },
     thingyUuid: {
       type: String,
-      required: true,
       unique: true,
     },
     alarm: {
@@ -38,11 +38,11 @@ let userSchema = new Schema(
     },
     imagesCapture: {
       type: Boolean,
-    }
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 userSchema.query.byUuid = function byUuid(uuid) {
@@ -62,9 +62,10 @@ userSchema.statics.findOrCreate = function findOrCreate(uuid) {
 }
 */
 
-userSchema.methods.sendCommand = function(command, data) {
-    // do sth. with the model
-    mqtt.publish(`${this.thingyUuid}/${command}`, data);
+userSchema.methods.sendCommand = function sendCommand(command, data) {
+  // Send command over mqtt
+  console.log('Sending command', `${this.thingyUuid}/${command}`)
+  mqtt.publish(`${this.thingyUuid}/${command}`, data);
 };
 
 

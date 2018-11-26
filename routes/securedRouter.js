@@ -34,6 +34,7 @@ securedRouter.patch('/users/:id', Controller.Users.update);
 securedRouter.delete('/users/:id', Controller.Users.delete);
 
 securedRouter.post('/registerThingy/', Controller.Users.registerThingy);
+securedRouter.get('/takeSnapshot/', Controller.Users.takeSnapshot);
 
 // Foos
 securedRouter.get('/foos/', Controller.Foos.list);
