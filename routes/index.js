@@ -46,7 +46,8 @@ router.post("/login", async (ctx, next) => {
               token: jwt.issue({
                   user: user.username,
                   role: "admin"
-              })
+              }),
+              _id: user._id
           }
           Models.User.updateOne({_id: user._id}, { token: token.token }).exec();
           ctx.body = token;
@@ -63,6 +64,32 @@ router.post("/login", async (ctx, next) => {
     await next();
 });
 
+
+router.post("/changePW", async (ctx, next) => {
+  let id = ctx.request.body.id;
+  let oldpassword = ctx.request.body.oldpassword;
+
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(ctx.request.body.password, salt);
+
+  await Models.User.findOne({_id: id}).exec()
+    .then( user => {
+      if(bcrypt.compareSync(oldpassword, user.password)) {
+        Models.User.updateOne({_id: id}, { password: hash }).exec();
+        ctx.body = {success: "Password changed"}
+      }
+      else {
+        ctx.status = 401;
+        ctx.body = {error: "Invalid password"}
+      }
+    })
+    .catch( error => {
+      ctx.status = 401;
+      ctx.body = {error: "Invalid token"}
+    });
+
+  await next();
+});
 
 // register
 router.post('/register', async (ctx, next) => {
