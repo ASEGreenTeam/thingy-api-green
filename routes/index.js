@@ -7,18 +7,12 @@
  */
 
 const Router = require('koa-router');
-const router = new Router();
 const Controller = require('../controllers');
-
 const jwt = require("../middlewares/jwt");
-
 const bcrypt = require('bcryptjs');
-
 const Models = require('../models');
 
-
-
-
+const router = new Router();
 
 // Error handling
 router.use(async (ctx, next) => {
@@ -28,7 +22,7 @@ router.use(async (ctx, next) => {
     console.log(error);
     ctx.status = error.status || 500;
     ctx.type = 'json';
-    ctx.body = { 'error': error.message || 'Something went wrong!' };
+    ctx.body = { error: error.message || 'Something went wrong!' };
     ctx.app.emit('error', error, ctx);
   }
 });
@@ -36,33 +30,60 @@ router.use(async (ctx, next) => {
 
 // login
 router.post("/login", async (ctx, next) => {
-  let username = ctx.request.body.username;
-  let password = ctx.request.body.password;
+  const username = ctx.request.body.username;
+  const password = ctx.request.body.password;
 
   await Models.User.findOne({ username: username }).exec()
-    .then( user => {
+    .then((user) => {
       if (bcrypt.compareSync(password, user.password)) {
-        let token = {
+        const token = {
           token: jwt.issue({
             user: user.username,
-            role: "admin"
-          })
+            role: 'admin',
+          }),
+          _id: user._id,
         }
-        Models.User.updateOne({_id: user._id }, { token: token.token }).exec();
+        Models.User.updateOne({ _id: user._id }, { token: token.token }).exec();
         ctx.body = token;
       } else {
         ctx.status = 401;
-        ctx.body = { error: "Invalid password" };
+        ctx.body = { error: 'Invalid password' };
       }
     })
-    .catch( error => {
+    .catch((error) => {
+      console.log(error);
       ctx.status = 401;
-      ctx.body = { error: "Invalid login" };
+      ctx.body = { error: 'Invalid login' };
     });
 
-    await next();
+  await next();
 });
 
+
+router.post('/changePW', async (ctx, next) => {
+  const id = ctx.request.body.id;
+  const oldpassword = ctx.request.body.oldpassword;
+
+  const salt = bcrypt.genSaltSync();
+  const hash = bcrypt.hashSync(ctx.request.body.password, salt);
+
+  await Models.User.findOne({ _id: id }).exec()
+    .then((user) => {
+      if (bcrypt.compareSync(oldpassword, user.password)) {
+        Models.User.updateOne({ _id: id }, { password: hash }).exec();
+        ctx.body = { success: 'Password changed' };
+      } else {
+        ctx.status = 401;
+        ctx.body = { error: 'Invalid password' };
+      }
+    })
+    .catch((error) => {
+      ctx.status = 401;
+      ctx.body = { error: 'Invalid token' };
+    });
+
+  await next();
+});
 
 // register
 router.post('/register', async (ctx, next) => {
@@ -70,18 +91,18 @@ router.post('/register', async (ctx, next) => {
   const hash = bcrypt.hashSync(ctx.request.body.password, salt);
   let newUser = new Models.User({ username: ctx.request.body.username, password: hash, email: ctx.request.body.email});
   await newUser.save()
-    .then( newUser => {
+    .then((newUser) => {
       console.log(newUser);
-      token = {
-          token: jwt.issue({
-              user: newUser.username,
-              role: "admin"
-          })
+      const token = {
+        token: jwt.issue({
+          user: newUser.username,
+          role: 'admin'
+        })
       }
-      Models.User.updateOne({_id: newUser._id}, { token: token.token }).exec();
+      Models.User.updateOne({ _id: newUser._id }, { token: token.token }).exec();
       ctx.body = token;
     })
-    .catch( error => {
+    .catch((error) => {
       console.error(error)
       ctx.body = { error: error.message }
       ctx.status = 400;
