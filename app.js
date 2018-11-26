@@ -3,6 +3,8 @@ const http = require('http');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
+const serve = require('koa-static');
+const mount = require('koa-mount');
 
 const mongoose = require('mongoose');
 const router = require('./routes/index');
@@ -26,7 +28,8 @@ app
   .use(bodyParser())
   .use(cors())
   .use(router.routes())
-  .use(router.allowedMethods());
+  .use(router.allowedMethods())
+  .use(mount('/images', serve('./images')));
 
 // Secure router
 app

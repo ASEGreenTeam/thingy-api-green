@@ -5,6 +5,8 @@ function prepareResource(ctx, log) {
     id: log._id,
     direction: log.direction,
     createdAt: log.createdAt,
+    imagePath: log.imagePath,
+    timestamp: log.timestamp,
     url: `http://${ctx.host}/logs/${log._id}`
   }
 }
