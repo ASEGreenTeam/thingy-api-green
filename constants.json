@@ -1,0 +1,6 @@
+{
+  "apiAddress" : "localhost:3000",
+  "clientAddress" : "localhost:4200",
+  "imagePath" : "images/"
+
+}

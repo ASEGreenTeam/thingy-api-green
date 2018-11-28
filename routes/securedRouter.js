@@ -28,7 +28,6 @@ securedRouter.use(async (ctx, next) => {
 
 // userSchema
 securedRouter.get('/users/', Controller.Users.list);
-securedRouter.delete('/users/', Controller.Users.clear);
 securedRouter.get('/users/:id', Controller.Users.read);
 securedRouter.patch('/users/:id', Controller.Users.update);
 securedRouter.delete('/users/:id', Controller.Users.delete);
@@ -52,6 +51,6 @@ securedRouter.get('/logs/:id', Controller.Logs.read);
 securedRouter.patch('/logs/:id', Controller.Logs.update);
 securedRouter.delete('/logs/:id', Controller.Logs.delete);
 
-securedRouter.get('/costants/:name', Controller.Costants.read);
+securedRouter.get('/constants/:name', Controller.Constants.read);
 
 module.exports = securedRouter;

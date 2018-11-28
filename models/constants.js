@@ -5,7 +5,8 @@ let costantsSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     value: {
       type: String,
@@ -14,7 +15,7 @@ let costantsSchema = new Schema(
   },
   {
     timestamps: true
-  value
+  }
 );
 
-module.exports = mongoose.model('Constants', constants);
+module.exports = mongoose.model('Constants', costantsSchema);

@@ -1,11 +1,11 @@
 const Models = require('../models');
 
-function prepareResource(ctx, costant) {
+function prepareResource(ctx, constant) {
   return {
-    id: costant._id,
-    name: costant.name,
-    value: costant.value,
-    url: 'http://' + ctx.host + /costant/ + costant._id
+    id: constant._id,
+    name: constant.name,
+    value: constant.value,
+    url: 'http://' + ctx.host + /constant/ + costant._id
   }
 }
 
