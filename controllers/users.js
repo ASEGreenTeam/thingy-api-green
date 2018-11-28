@@ -68,9 +68,12 @@ const controller = {
 
   delete: async (ctx, next) => {
     const { id } = ctx.params;
-    await Models.User.deleteOne({ _id: id });
-    ctx.status = 204;
-    await next();
+    const user = await Models.User.findById(id);
+    if (checkUserAccess(ctx, user)) {
+      await Models.User.deleteOne({ _id: id });
+      ctx.status = 204;
+      await next();
+    }
   },
 
   list: async (ctx, next) => {
@@ -79,11 +82,11 @@ const controller = {
     await next();
   },
 
-  clear: async (ctx, next) => {
+  /*clear: async (ctx, next) => {
     await Models.User.deleteMany({});
     ctx.status = 204;
     await next();
-  },
+  },*/
 
   registerThingy: async (ctx, next) => {
     const user = await getUserFromToken(ctx);
