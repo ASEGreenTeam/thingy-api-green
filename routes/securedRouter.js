@@ -28,12 +28,12 @@ securedRouter.use(async (ctx, next) => {
 
 // userSchema
 securedRouter.get('/users/', Controller.Users.list);
-securedRouter.delete('/users/', Controller.Users.clear);
+//securedRouter.delete('/users/', Controller.Users.clear);
 securedRouter.get('/users/:id', Controller.Users.read);
 securedRouter.patch('/users/:id', Controller.Users.update);
 securedRouter.delete('/users/:id', Controller.Users.delete);
 
-securedRouter.get('/users/registerThingy/', Controller.Users.registerThingy);
+securedRouter.get('/registerThingy/', Controller.Users.registerThingy);
 securedRouter.get('/takeSnapshot/', Controller.Users.takeSnapshot);
 
 // Foos
