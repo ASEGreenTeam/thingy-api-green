@@ -29,15 +29,19 @@ const userSchema = new Schema(
     },
     alarm: {
       type: Boolean,
+      default: false,
     },
     lightAlert: {
       type: Boolean,
+      default: false,
     },
     soundAlert: {
       type: Boolean,
+      default: false,
     },
     imagesCapture: {
       type: Boolean,
+      default: false,
     },
   },
   {
