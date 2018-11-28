@@ -13,10 +13,33 @@ const securedRouter = require('./routes/securedRouter');
 
 const jwt = require('./middlewares/jwt');
 
+const Models = require('./models');
+
 
 mongoose.connect('mongodb://localhost/thingy-security', { useNewUrlParser: true })
   .then(() => console.log('connection successful'))
   .catch(err => console.error(err));
+
+insertConstant();
+
+
+async function insertConstant() {
+  var constants = require("./constants.json");
+  for(var name in constants){
+      console.log(name+": "+constants[name]);
+      let constant = await Models.Constants.findOne({ name: name }).exec();
+      if(constant){
+        await Object.assign(constant, {value: constants[name]});
+        constant.save();
+      }else{
+        let newConstant = new Models.Constants({name: name, value: constants[name]});
+        newConstant.save();
+      }
+
+  }
+}
+
+
 
 const app = new Koa();
 

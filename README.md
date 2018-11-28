@@ -57,5 +57,7 @@ curl -X POST \
 ```
 
 
+In addition you can setup some constants (like api address or imagePath) in the file constants.json
+
 
 so you'll can test the client too.
