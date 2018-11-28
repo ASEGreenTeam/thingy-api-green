@@ -52,6 +52,6 @@ securedRouter.get('/logs/:id', Controller.Logs.read);
 securedRouter.patch('/logs/:id', Controller.Logs.update);
 securedRouter.delete('/logs/:id', Controller.Logs.delete);
 
-
+securedRouter.get('/costants/:name', Controller.Costants.read);
 
 module.exports = securedRouter;
