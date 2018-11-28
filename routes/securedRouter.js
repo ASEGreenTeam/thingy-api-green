@@ -33,7 +33,7 @@ securedRouter.get('/users/:id', Controller.Users.read);
 securedRouter.patch('/users/:id', Controller.Users.update);
 securedRouter.delete('/users/:id', Controller.Users.delete);
 
-securedRouter.post('/registerThingy/', Controller.Users.registerThingy);
+securedRouter.get('/users/registerThingy/', Controller.Users.registerThingy);
 securedRouter.get('/takeSnapshot/', Controller.Users.takeSnapshot);
 
 // Foos

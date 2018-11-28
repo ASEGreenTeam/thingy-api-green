@@ -12,6 +12,7 @@ function prepareResource(ctx, user) {
     alarm: user.alarm,
     lightAlert: user.lightAlert,
     soundAlert: user.soundAlert,
+    emailAlert: user.emailAlert,
     imagesCapture: user.imagesCapture,
     registerThingy: user.registerThingy,
     url: `http://${ctx.host}/user/${user._id}`,
@@ -62,7 +63,6 @@ const controller = {
       await user.save();
       ctx.body = prepareResource(ctx, user);
     }
-
     await next();
   },
 
