@@ -15,6 +15,7 @@ function prepareResource(ctx, user) {
     emailAlert: user.emailAlert,
     imagesCapture: user.imagesCapture,
     registerThingy: user.registerThingy,
+    alarmDelay: user.alarmDelay,
     url: `http://${ctx.host}/user/${user._id}`,
   };
 }
