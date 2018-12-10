@@ -1,11 +1,17 @@
 version: "2"
 services:
-  app:
-    container_name: app
+  frontend:
+    container_name: asegreen-thingy-client
+    image: asegreen/thingy-client
     restart: always
-    build: .
     ports:
-      - 3000:3000
+      - 80:80
+  backend:
+    container_name: asegreen-thingy-api
+    image: asegreen/thingy-api
+    restart: always
+    ports:
+      - 8080:8080
     links:
       - mongo
   mongo:
