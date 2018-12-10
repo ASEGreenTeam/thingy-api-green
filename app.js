@@ -15,6 +15,8 @@ const jwt = require('./middlewares/jwt');
 
 const Models = require('./models');
 
+const telegramBot = require('./lib/telegramBot');
+const TeleBot = require('telebot');
 
 mongoose.connect('mongodb://localhost/thingy-security', { useNewUrlParser: true })
   .then(() => console.log('connection successful'))
@@ -38,6 +40,9 @@ async function insertConstant() {
 
   }
 }
+
+
+
 
 
 
