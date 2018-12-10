@@ -13,6 +13,7 @@ function prepareResource(ctx, user) {
     lightAlert: user.lightAlert,
     soundAlert: user.soundAlert,
     emailAlert: user.emailAlert,
+    telegramAlert: user.telegramAlert,
     imagesCapture: user.imagesCapture,
     registerThingy: user.registerThingy,
     alarmDelay: user.alarmDelay,

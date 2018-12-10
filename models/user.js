@@ -47,6 +47,10 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    telegramAlert: {
+      type: Boolean,
+      default: false,
+    },
     alarmDelay: { // Delay in seconds before actually activating the alarm
       type: Number,
       default: 30,

@@ -27,7 +27,7 @@ securedRouter.use(async (ctx, next) => {
 
 
 // userSchema
-//securedRouter.get('/users/', Controller.Users.list);
+securedRouter.get('/users/', Controller.Users.list);
 securedRouter.get('/users/:id', Controller.Users.read);
 securedRouter.patch('/users/:id', Controller.Users.update);
 securedRouter.delete('/users/:id', Controller.Users.delete);
