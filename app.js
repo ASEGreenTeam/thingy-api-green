@@ -45,6 +45,7 @@ async function insertConstant() {
 
 
 
+
 const app = new Koa();
 
 securedRouter.use(jwt.errorHandler()).use(jwt.jwt());
