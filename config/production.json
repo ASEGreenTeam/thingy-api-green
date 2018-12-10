@@ -1,0 +1,8 @@
+{
+  "Constants": {
+    "apiAddress" : "localhost:8080",
+    "clientAddress" : "localhost"
+  },
+  "PORT": 8080,
+  "DB_ADDRESS": "mongodb://mongo:27017"
+}

@@ -1,0 +1,9 @@
+{
+  "Constants": {
+    "apiAddress" : "localhost:3000",
+    "clientAddress" : "localhost:4200",
+    "imagePath" : "images/"
+  },
+  "PORT": 3000,
+  "DB_ADDRESS": "mongodb://localhost/thingySecurity"
+}
