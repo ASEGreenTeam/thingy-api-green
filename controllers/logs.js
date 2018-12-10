@@ -55,6 +55,12 @@ let controller = {
     await Models.Log.deleteMany({});
     ctx.status = 204;
     await next();
+  },
+
+  getPicture: async (ctx, next) => {
+    const id = ctx.params.id;
+    const log = await Models.Log.findById(id);
+    await next();
   }
 
 }

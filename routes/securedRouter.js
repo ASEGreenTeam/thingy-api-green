@@ -50,6 +50,7 @@ securedRouter.delete('/logs/', Controller.Logs.clear);
 securedRouter.get('/logs/:id', Controller.Logs.read);
 securedRouter.patch('/logs/:id', Controller.Logs.update);
 securedRouter.delete('/logs/:id', Controller.Logs.delete);
+securedRouter.get('logs/:id/picture', Controller.Logs.getPicture);
 
 securedRouter.get('/constants/:name', Controller.Constants.read);
 
