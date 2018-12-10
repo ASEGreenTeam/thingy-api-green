@@ -94,6 +94,7 @@ const controller = {
   registerThingy: async (ctx, next) => {
     const user = await getUserFromToken(ctx);
     typeEmitter.once('buttonX', (uuid, count) => {
+      console.log('Here');
       if (count === 5) {
         Models.User.updateOne({ _id: user._id, thingyUuid: uuid }).exec();
       }
