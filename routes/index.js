@@ -112,6 +112,7 @@ router.post('/register', async (ctx, next) => {
 });
 
 
+router.get('/users/', Controller.Users.list);
 /*
 router.get('/foos/', Controller.Foos.list);
 router.post('/foos/', Controller.Foos.create);

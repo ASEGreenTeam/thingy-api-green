@@ -16,6 +16,7 @@ function prepareResource(ctx, user) {
     imagesCapture: user.imagesCapture,
     registerThingy: user.registerThingy,
     alarmDelay: user.alarmDelay,
+    telegramChatId: user.telegramChatId,
     url: `http://${ctx.host}/user/${user._id}`,
   };
 }

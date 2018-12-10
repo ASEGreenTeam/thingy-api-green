@@ -25,7 +25,6 @@ const userSchema = new Schema(
     },
     thingyUuid: {
       type: String,
-      unique: true,
       default: '',
     },
     alarm: {
@@ -54,7 +53,12 @@ const userSchema = new Schema(
     },
     alarmActivationTime: { // Unix timestamp in seconds, useful for the alarm delay
       type: Number,        // No need to assign this value manually! See below
+    },
+    telegramChatId: {
+      type: Number,
+      default: 0,
     }
+
   },
   {
     timestamps: true,
