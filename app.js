@@ -17,6 +17,8 @@ const jwt = require('./middlewares/jwt');
 
 const Models = require('./models');
 
+const telegramBot = require('./lib/telegramBot');
+const TeleBot = require('telebot');
 
 mongoose.connect(config.DB_ADDRESS, { useNewUrlParser: true })
   .then(() => console.log('connection successful'))
@@ -38,6 +40,9 @@ async function insertConstant() {
 }
 
 insertConstant();
+
+
+
 
 const app = new Koa();
 
