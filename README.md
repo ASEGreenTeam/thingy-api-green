@@ -31,33 +31,23 @@ from the repository. The API's url is [http://localhost:3000](http://localhost:3
 * **Mathias Birrer**
 * **Manuel Drazyk**
 
+## Telegram
+In order to using Telegram with our api you need to go on Telegram and search for @thingyAlarm_bot.
+Then the first thing that you will need to do is write:
+
+```
+$ /register your@mail.com
+```
+The mail needs to be the same mail that you use to enter in your thingy alarm account.
+After that your chat will be linked to your thingy account and you could interact with it using the displayed commands.
+
 ## Remarks
-
-
-You can create a new account with this command. Then you will get back a token that you need to save.
-
-```
-$ curl -X POST \
-  http://localhost:3000/register \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json' \
-  -d '{"username": "user", "password": "pwd", "email": "email@gmail.com"}'
-
-```
-
-With the previusly saved toen you can add new foos in order to test the api with this command (jus replace the eyJhbG... string with the real token that you saved ):
-```
-curl -X POST \
-  http://localhost:3000/foos \
-  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUwMjI2OTg4MX0.Ugbh4UwN9tRwhIQEQUHoo-affUf5CAsCztzAXncBYt4' \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json' \
-  -d '{"foo":"hello"}'
-
-```
 
 
 In addition you can setup some constants (like api address or imagePath) in the file constants.json
 
 
 so you'll can test the client too.
+
+
+
