@@ -49,12 +49,12 @@ First of all, create an account on https://ifttt.com and then open the following
 https://ifttt.com/create <br>
 and choose the service “Location”:  <br>
 
-![Location](https://github.com/ASEGreenTeam/thingy-api-green/tree/master/pictures_readme/Location.png)  <br>
+![Location](https://github.com/ASEGreenTeam/thingy-api-green/blob/master/pictures_readme/Location.PNG)  <br>
 
 Next, select the option “You enter an area” and define the area where you live.
 The next step is to select the service “Webhooks”:  <br>
 
- ![Webhooks](https://github.com/ASEGreenTeam/thingy-api-green/tree/master/pictures_readme/Webhooks.png) <br>
+ ![Webhooks](https://github.com/ASEGreenTeam/thingy-api-green/blob/master/pictures_readme/Webhooks.PNG) <br>
 
 
 
@@ -67,7 +67,7 @@ Method: 	Post  <br>
 Content Type: 	application/json  <br>
 Body:	{"email" : "your_registered_email_adress" }  <br>
 where your_registered_email_adress is the email you used registering in the client. <br>
- ![Webrequest](https://github.com/ASEGreenTeam/thingy-api-green/tree/master/pictures_readme/webrequest.png) <br>
+ ![Webrequest](https://github.com/ASEGreenTeam/thingy-api-green/blob/master/pictures_readme/webrequest.PNG) <br>
 
 
  
