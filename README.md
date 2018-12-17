@@ -45,26 +45,29 @@ After that your chat will be linked to your thingy account and you could interac
 
 
 IFTTT is a smartphone app, that lets the user create simple applications, like automatic deactivation of the WiFi if you leave your house without writing a complete App. Normally it would be possible to make the applet to control the automatic deactivation of the alarm, when you get with you smartphone in the defined range downloadable via IFTTT, but you can only upload predefined Applets with an company account, that I don’t have access to for an university project. Because of that I describe how to create the Applet yourself:
-First of all, create an account on https://ifttt.com and then open the following URL:
-https://ifttt.com/create
-and choose the service “Location”: 
-![Location](pictures_readme/Location.png)
+First of all, create an account on https://ifttt.com and then open the following URL: <br>
+https://ifttt.com/create <br>
+and choose the service “Location”:  <br>
+
+![Location](https://github.com/ASEGreenTeam/thingy-api-green/tree/master/pictures_readme/Location.png)  <br>
+
 Next, select the option “You enter an area” and define the area where you live.
-The next step is to select the service “Webhooks”:
- ![Webhooks](pictures_readme/Webhooks.png)
+The next step is to select the service “Webhooks”:  <br>
+
+ ![Webhooks](https://github.com/ASEGreenTeam/thingy-api-green/tree/master/pictures_readme/Webhooks.png) <br>
 
 
 
 
 
-In the next step, the parameters for the webrequest are required. The needed values are:
-URL:	http://ip_of_client:3000/disableAlarm 
-where ip_of_client is the IP-adress the device has where the clients runs on.
-Method: 	Post
-Content Type: 	application/json
-Body:	{"email" : "your_registered_email_adress" } 
-where your_registered_email_adress is the email you used registering in the client.
- ![Webrequest](pictures_readme/webrequest.png)
+In the next step, the parameters for the webrequest are required. The needed values are: <br>
+URL:	http://ip_of_client:3000/disableAlarm  <br>
+where ip_of_client is the IP-adress the device has where the clients runs on.   <br>
+Method: 	Post  <br>
+Content Type: 	application/json  <br>
+Body:	{"email" : "your_registered_email_adress" }  <br>
+where your_registered_email_adress is the email you used registering in the client. <br>
+ ![Webrequest](https://github.com/ASEGreenTeam/thingy-api-green/tree/master/pictures_readme/webrequest.png) <br>
 
 
  
