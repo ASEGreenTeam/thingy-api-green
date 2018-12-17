@@ -85,8 +85,20 @@ router.post('/changePW', async (ctx, next) => {
   await next();
 });
 
-router.get('/disableAlarm', async (ctx, next) => {
-  ctx.body = { success: 'blsl' };
+router.post('/enableAlarm', async (ctx, next) => {
+  const mail = ctx.request.body.email;
+
+  await Models.User.findOne({ email: mail }).exec()
+    .then((user) => {
+      Models.User.updateOne({ email: mail }, { alarm: true }).exec();
+      ctx.body = { success: 'Alarm disabled' };
+    })
+    .catch((error) => {
+      ctx.status = 401;
+      ctx.body = { error: 'Invalid ID' };
+    });
+
+  await next();
 });
 
 router.post('/disableAlarm', async (ctx, next) => {
